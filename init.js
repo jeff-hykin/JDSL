@@ -125,4 +125,4 @@ for (const each of filePaths) {
     
 }
 
-await run`git checkout ${startingCommit}`
+await run`git checkout master`
