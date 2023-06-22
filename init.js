@@ -26,7 +26,7 @@ for (const each of filePaths) {
             for (const each of Functions) {
                 console.group()
                 console.log(`loading ${each}`)
-                await run`git checkout ${each}`
+                await run`git checkout ${each.toString(16)}`
                 const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                 const methodName = jsFile.match(regex`${Class}\\.prototype\\.(\\w+)`)[1]
                 
