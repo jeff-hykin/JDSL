@@ -33,7 +33,7 @@ for (const each of filePaths) {
                 console.log(`loading ${eachFunctionNumber.toString(16)}`)
                 await run`git checkout ${eachFunctionNumber.toString(16)}`
                 const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
-                const methodName = jsFile.match(regex`${Class}\\.prototype\\.(\\w+)`)[1]
+                const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                 
                 console.log(`aka ${methodName}`)
                 const tree = parser.parse({ string: jsFile, withWhitespace: true })
