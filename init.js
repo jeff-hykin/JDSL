@@ -19,7 +19,7 @@ for (const each of filePaths) {
         console.group()
         console.debug(`loading ${each.path}`)
         const parentPath = FileSystem.parentPath(each.path)
-        const { File, Class, Author, Purpose, Functions } = JSON.parse(await FileSystem.read(each))
+        const { File, Class, Author, Purpose, Functions } = JSON.parse(await FileSystem.read(each.path))
         classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
         const methods = {}
         try {
