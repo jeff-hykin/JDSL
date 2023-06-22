@@ -100,6 +100,7 @@ for (const each of filePaths) {
                     classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                 } catch (error) {
                     console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                    console.debug(`error.stack is:`,error.stack)
                 }
                 console.groupEnd()
             }
@@ -111,10 +112,12 @@ for (const each of filePaths) {
                     await methods.constructor.apply(newObject, {})
                 } catch (error) {
                     console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                    console.debug(`error.stack is:`,error.stack)
                 }
             }
         } catch (error) {
             console.log(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
+            console.debug(`error.stack is:`,error.stack)
         }
         console.groupEnd()
     }
