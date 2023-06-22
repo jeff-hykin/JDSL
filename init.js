@@ -94,7 +94,7 @@ for (const each of filePaths) {
                 try {
                     classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                 } catch (error) {
-                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work`)
+                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                 }
                 console.groupEnd()
             }
@@ -105,7 +105,7 @@ for (const each of filePaths) {
                     // call the constructor
                     await methods.constructor.apply(newObject, {})
                 } catch (error) {
-                    
+                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                 }
             }
         } catch (error) {
@@ -115,3 +115,5 @@ for (const each of filePaths) {
     }
     
 }
+
+await run`git checkout ${startingCommit}`
