@@ -95,12 +95,12 @@ for (const each of filePaths) {
                             }
                         }
                     }
-                }
-                try {
-                    classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
-                } catch (error) {
-                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
-                    console.debug(`error.stack is:`,error.stack)
+                    try {
+                        classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                    } catch (error) {
+                        console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                        console.debug(`error.stack is:`,error.stack)
+                    }
                 }
                 console.groupEnd()
             }
