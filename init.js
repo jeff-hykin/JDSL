@@ -11,8 +11,6 @@ const parser = await parserFromWasm(javascript)
 
 const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
 
-const startingCommit = await run`git rev-parse HEAD ${Stdout(returnAsString)}`
-
 const classes = {}
 FileSystem.cwd = Deno.args[0]
 for (const each of filePaths) {
