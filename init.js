@@ -23,14 +23,10 @@ for (const each of filePaths) {
         classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
         const methods = {}
         try {
-            for (const each of Functions) {
+            for (const eachFunctionNumber of Functions) {
                 console.group()
-<<<<<<< Updated upstream
-                console.log(`loading ${each}`)
-=======
-                console.log(`loading ${each.toString(16)}`)
->>>>>>> Stashed changes
-                await run`git checkout ${each.toString(16)}`
+                console.log(`loading ${eachFunctionNumber.toString(16)}`)
+                await run`git checkout ${eachFunctionNumber.toString(16)}`
                 const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                 const methodName = jsFile.match(regex`${Class}\\.prototype\\.(\\w+)`)[1]
                 
