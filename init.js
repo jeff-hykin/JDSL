@@ -114,7 +114,7 @@ for (const each of filePaths) {
                 }
             }
         } catch (error) {
-            console.log(`sending an email to ${Author}: ${JSON.stringify(error)}`)
+            console.log(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
         }
         console.groupEnd()
     }
