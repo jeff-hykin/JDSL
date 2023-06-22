@@ -28,6 +28,7 @@ for (const each of filePaths) {
         classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
         const methods = {}
         try {
+            console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions })
             for (const eachFunctionNumber of Functions) {
                 console.group()
                 console.log(`loading ${eachFunctionNumber.toString(16)}`)
