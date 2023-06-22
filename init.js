@@ -105,13 +105,13 @@ for (const each of filePaths) {
                 console.groupEnd()
             }
             // call constructor if it exists
-            if (methods.constructor instanceof Function) {
+            if (Object.keys(methods).includes("constructor")) {
                 try {
                     const newObject = classes[Class]()
                     // call the constructor
                     await methods.constructor.apply(newObject, {})
                 } catch (error) {
-                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                    console.log(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
                     console.debug(`error.stack is:`,error.stack)
                 }
             }
