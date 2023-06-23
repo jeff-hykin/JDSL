@@ -16,9 +16,13 @@ const parser = await parserFromWasm(javascript)
     // these are helpers for the .i part, which requires a proxy object
     // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
     const realExec = RegExp.prototype.exec
+    let disableRex = false
     RegExp.prototype.exec = function (...args) {
         console.debug(`args is:`,args)
         console.debug(`this is:`,this)
+        if (disableRex) {
+            return true
+        }
         return realExec.apply(this, args)
     }
     const proxyRegExp = (parent, flags)=> {
@@ -193,13 +197,16 @@ async function doStuff() {
                                 }
                             }
                             try {
+                                disableRex = true
                                 classes[Class].prototype[methodName] = methods[methodName] = eval(newCode.replace(regex`\\b${methodName}\\b`.g, "classes[Class]"))
+                                disableRex = false
                                 if (!methods[methodName]) {
                                     console.debug(`classes[Class] is:`,classes[Class])
                                     console.debug(`newCode is:`,newCode)
                                     console.debug(`eval(newCode) is:`,eval(newCode))
                                 }
                             } catch (error) {
+                                disableRex = false
                                 console.log(`classes is:`,toRepresentation( classes))
                                 console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                                 console.debug(`error.stack is:`,error.stack)
@@ -213,7 +220,7 @@ async function doStuff() {
                             const newObject = new classes[Class]()
                             // call the constructor
                             console.debug(`methods is:`,methods)
-                            await methods.constructor.apply(newObject, {})
+                            await methods.constructor.apply(newObject, [{}])
                         } catch (error) {
                             console.log(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
                             console.debug(`error.stack is:`,error.stack)
