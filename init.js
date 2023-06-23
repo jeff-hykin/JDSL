@@ -17,8 +17,7 @@ const parser = await parserFromWasm(javascript)
     // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
     const proxyRegExp = (parent, flags)=> {
         const regex = new RegExp(parent, flags)
-        const output = new Proxy(regex, regexProxyOptions)
-        const regexProxyOptions = Object.freeze({
+        const output = new Proxy(regex, Object.freeze({
             get(original, key) {
                 // if its flags, return a copy with those flags set
                 if (typeof key == 'string') {
@@ -32,7 +31,7 @@ const parser = await parserFromWasm(javascript)
                 original[key] = value
                 return true
             },
-        })
+        }))
         Object.setPrototypeOf(output, Object.getPrototypeOf(regex))
         return output
     }
