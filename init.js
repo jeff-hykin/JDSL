@@ -14,7 +14,7 @@ async function doStuff() {
         const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
         await run`git add -A`
         await run`git commit -m '--'`
-        const startingCommit = (await run`git rev-parse --abbrev-ref HEAD`)
+        const startingCommit = (await run`git rev-parse --abbrev-ref HEAD ${Stdout(returnAsString)}`).replace(/\n/g,"")
 
         const classes = {}
         FileSystem.cwd = Deno.args[0]
