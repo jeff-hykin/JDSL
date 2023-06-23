@@ -20,10 +20,9 @@ const parser = await parserFromWasm(javascript)
     RegExp.prototype.exec = function (...args) {
         console.debug(`args is:`,args)
         console.debug(`this is:`,this)
-        if (disableRex) {
-            return [ " " ]
-        }
-        const output = realExec.apply(this, args)
+        const newRegex = new RegExp(this)
+        console.debug(`newRegex is:`,newRegex)
+        const output = realExec.apply(newRegex, args)
         console.debug(`output is:`,output)
         return output
     }
