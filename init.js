@@ -55,70 +55,69 @@ async function doStuff() {
                         let newCode = ""
                         const allNodes = flatNodeList(tree.rootNode).map(each=>!each.hasChildren)
                         for (const [ nodeIndex, each ] of enumerate(allNodes)) {
-                            if (!each.hasChildren) {
-                                if (!(each.type == "comment")) {
-                                    newCode += each.text||""
-                                } else {
-                                    let text = each.text
-                                    const remainingText = allNodes.slice(nodeIndex+1,).filter(each=>each.type!=="comment").map(each=>each.text).join("")
-                                    // must try to make every bit of potentially-executable code executable
+                            console.debug(`each is:`,each)
+                            if (!(each.type == "comment")) {
+                                newCode += each.text||""
+                            } else {
+                                let text = each.text
+                                const remainingText = allNodes.slice(nodeIndex+1,).filter(each=>each.type!=="comment").map(each=>each.text).join("")
+                                // must try to make every bit of potentially-executable code executable
 
-                                    // slice off the comment-y stuff
-                                    if (text.startsWith("/*")) {
-                                        text = text.slice(2,-2)
-                                    } else {
-                                        text = text.slice(2)
-                                    }
-                                    
-                                    const snippetIsValid = async (snippet)=>{
+                                // slice off the comment-y stuff
+                                if (text.startsWith("/*")) {
+                                    text = text.slice(2,-2)
+                                } else {
+                                    text = text.slice(2)
+                                }
+                                
+                                const snippetIsValid = async (snippet)=>{
+                                    try {
+                                        // if it passes eval, then its valid 😜
+                                        await eval(`${newCode}${snippet}${remainingText}`)
+                                        newCode += snippet
+                                        return true
+                                    } catch (error) {
                                         try {
-                                            // if it passes eval, then its valid 😜
-                                            await eval(`${newCode}${snippet}${remainingText}`)
-                                            newCode += snippet
+                                            // gotta try automatic semicolon injection
+                                            await eval(`${newCode};${snippet}${remainingText}`)
+                                            newCode += ";"+snippet
                                             return true
                                         } catch (error) {
-                                            try {
-                                                // gotta try automatic semicolon injection
-                                                await eval(`${newCode};${snippet}${remainingText}`)
-                                                newCode += ";"+snippet
-                                                return true
-                                            } catch (error) {
-                                                return false
-                                            }
                                             return false
                                         }
                                         return false
                                     }
-                                    
-                                    // gotta try all the combinations to make sure comments execute as valid code
-                                    tryNext: while (true) {
-                                        for (const [startIndex, _] of enumerate(text)) {
-                                            for (const [endIndex, __] of enumerate(text+" ").reverse()) {
-                                                if (await snippetIsValid(text.slice(startIndex, endIndex))) {
-                                                    text = text.slice(endIndex)
-                                                    // if there's still some text remaining, try to make it valid too
-                                                    if (text.length != 0) {
-                                                        continue tryNext
-                                                    // otherwise were done
-                                                    } else {
-                                                        break tryNext
-                                                    }
+                                    return false
+                                }
+                                
+                                // gotta try all the combinations to make sure comments execute as valid code
+                                tryNext: while (true) {
+                                    for (const [startIndex, _] of enumerate(text)) {
+                                        for (const [endIndex, __] of enumerate(text+" ").reverse()) {
+                                            if (await snippetIsValid(text.slice(startIndex, endIndex))) {
+                                                text = text.slice(endIndex)
+                                                // if there's still some text remaining, try to make it valid too
+                                                if (text.length != 0) {
+                                                    continue tryNext
+                                                // otherwise were done
+                                                } else {
+                                                    break tryNext
                                                 }
                                             }
                                         }
-                                        break // ran out of characters
                                     }
+                                    break // ran out of characters
                                 }
-                                try {
-                                    classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
-                                    if (!methods[methodName]) {
-                                        console.debug(`newCode is:`,newCode)
-                                        console.debug(`eval(newCode) is:`,eval(newCode))
-                                    }
-                                } catch (error) {
-                                    console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
-                                    console.debug(`error.stack is:`,error.stack)
+                            }
+                            try {
+                                classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                                if (!methods[methodName]) {
+                                    console.debug(`newCode is:`,newCode)
+                                    console.debug(`eval(newCode) is:`,eval(newCode))
                                 }
+                            } catch (error) {
+                                console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                                console.debug(`error.stack is:`,error.stack)
                             }
                         }
                         console.groupEnd()
