@@ -13,37 +13,37 @@ const parser = await parserFromWasm(javascript)
 // 
 // regex`pattern${/stuff/}${`stuff`}`.i
 // 
-    // these are helpers for the .i part, which requires a proxy object
-    // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
     const regexpProxy = Symbol('regexpProxy')
     const realExec = RegExp.prototype.exec
-    let disableRex = false
+    // patching is required but only effects things with this proxy
     RegExp.prototype.exec = function (...args) {
         if (this[regexpProxy]) {
             return realExec.apply(this[regexpProxy], args)
         }
         return realExec.apply(this, args)
     }
-    const proxyRegExp = (parent, flags)=> {
+    // these are helpers for the .i part, which requires a proxy object
+    // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
+    let proxyRegExp
+    const regexProxyOptions = Object.freeze({
+        get(original, key) {
+            // if its flags, return a copy with those flags set
+            if (typeof key == 'string' && key.match(/^[igymu]+$/)) {
+                return proxyRegExp(original, key)
+            }
+            if (key == regexpProxy) {
+                return original
+            }
+            return original[key]
+        },
+        set(original, key, value) {
+            original[key] = value
+            return true
+        },
+    })
+    proxyRegExp = (parent, flags)=> {
         const regex = new RegExp(parent, flags)
-        const output = new Proxy(regex, Object.freeze({
-            get(original, key) {
-                // if its flags, return a copy with those flags set
-                if (typeof key == 'string') {
-                    if (key.match(/^[igymu]+$/)) {
-                        return proxyRegExp(original, key)
-                    }
-                }
-                if (key == regexpProxy) {
-                    return regex
-                }
-                return regex[key]
-            },
-            set(original, key, value) {
-                original[key] = value
-                return true
-            },
-        }))
+        const output = new Proxy(regex, regexProxyOptions)
         Object.setPrototypeOf(output, Object.getPrototypeOf(regex))
         return output
     }
@@ -69,34 +69,9 @@ const parser = await parserFromWasm(javascript)
                 }
             }
             // this exists to make regex``.i, regex``.gi, etc work
-            const regex = new RegExp(newRegexString)
             return proxyRegExp(newRegexString,"")
         }
     }
-    
-    /**
-     * interpolate strings/regex
-     *
-     * @example
-     *     const someName = "nameWithWeirdSymbols\\d(1)$@[]"
-     *     const versionPattern = /\d+\.\d+\.\d+/
-     *     const combined = regex`blah "${someName}"@${versionPattern}`.i
-     *     // the string is regex-escaped, but the regex is kept as-is:
-     *     /blah "nameWithWeirdSymbols\\d\(1\)\$@\[\]"@(?:\d+\.\d+)/i
-     * 
-     *     // NOTE: interpolating with flags will give a warning that they will be stripped:
-     *     const versionPattern2 = /\d+\.\d+\.\d+/iu
-     *     regex`blah thing@${versionPattern2}` // >>> warning the "iu" flags will be stripped
-     *     // use this to intentionally strip flags
-     *     regex.stripFlags`blah thing@${versionPattern2}` // no warning
-     * 
-     * @param arg1 - a template string
-     * @returns {RegExp} output
-     *
-     */
-    const regex = regexWithStripWarning(false)
-    regex.stripFlags = regexWithStripWarning(true)
-
 
 async function doStuff() {
     try {
