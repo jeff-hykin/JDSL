@@ -35,6 +35,7 @@ async function doStuff() {
                     console.debug(`each.path is:`,each.path)
                     console.debug(`output is:`,output)
                     console.debug(`error is:`,error)
+                    console.log(`continuing anyways!`)
                     continue
                 }
                 classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
@@ -137,7 +138,7 @@ async function doStuff() {
             }
             
         }
-
+        console.log("\nEND, returning")
         await run`git checkout ${startingCommit}`
     } catch (error) {
         await run`git checkout master`
