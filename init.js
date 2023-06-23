@@ -117,7 +117,7 @@ async function doStuff() {
                                     console.debug(`eval(newCode) is:`,eval(newCode))
                                 }
                             } catch (error) {
-                                console.debug(`classes is:`,classes)
+                                console.log(`classes is:`,classes)
                                 console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                                 console.debug(`error.stack is:`,error.stack)
                             }
