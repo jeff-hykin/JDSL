@@ -22,7 +22,7 @@ const parser = await parserFromWasm(javascript)
         console.debug(`this is:`,this)
         const newRegex = new RegExp(this)
         console.debug(`newRegex is:`,newRegex)
-        const output = realExec.apply(newRegex, args)
+        const output = realExec.apply(this, args)
         console.debug(`output is:`,output)
         return output
     }
