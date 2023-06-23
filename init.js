@@ -174,17 +174,13 @@ async function doStuff() {
                                 }
                             }
                             try {
-                                disableRex = true
-                                console.debug(`disableRex is:`,disableRex)
                                 classes[Class].prototype[methodName] = methods[methodName] = eval(newCode.replace(regex`\\b${methodName}\\b`.g, "classes[Class]"))
-                                disableRex = false
                                 if (!methods[methodName]) {
                                     console.debug(`classes[Class] is:`,classes[Class])
                                     console.debug(`newCode is:`,newCode)
                                     console.debug(`eval(newCode) is:`,eval(newCode))
                                 }
                             } catch (error) {
-                                disableRex = false
                                 console.log(`classes is:`,toRepresentation( classes))
                                 console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                                 console.debug(`error.stack is:`,error.stack)
