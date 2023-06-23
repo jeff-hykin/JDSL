@@ -23,7 +23,7 @@ async function doStuff() {
                 console.group()
                 console.debug(`loading ${each.path}`)
                 const parentPath = FileSystem.parentPath(each.path)
-                console.log(`        ${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
+                console.log(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
                 const output = await FileSystem.read(each.path)
                 if (!output) {
                     console.debug(`each.path: ${each.path}`)
@@ -139,8 +139,8 @@ async function doStuff() {
             }
             
         }
+        console.log(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
         console.log("\nEND, returning")
-        await run`git checkout ${startingCommit}`
     } catch (error) {
         await run`git checkout master`
     }
