@@ -22,7 +22,14 @@ for (const each of filePaths) {
         if (!output) {
             console.debug(`each.path: ${each.path}`)
         }
-        const { File, Class, Author, Purpose, Functions } = JSON.parse(output)
+        try {
+            var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
+        } catch (error) {
+            console.debug(`each.path is:`,each.path)
+            console.debug(`output is:`,output)
+            console.debug(`error is:`,error)
+            continue
+        }
         classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
         const methods = {}
         try {
