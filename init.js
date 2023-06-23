@@ -10,6 +10,7 @@ const parser = await parserFromWasm(javascript)
 
 
 const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
+const startingCommit = (await run`git rev-parse HEAD ${Stdout(returnAsString)}`).slice(0,7)
 
 const classes = {}
 FileSystem.cwd = Deno.args[0]
@@ -122,6 +123,7 @@ for (const each of filePaths) {
                     console.debug(`error.stack is:`,error.stack)
                 }
             }
+            await run`git checkout ${startingCommit}`
         } catch (error) {
             console.log(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
             console.debug(`error.stack is:`,error.stack)
@@ -131,4 +133,4 @@ for (const each of filePaths) {
     
 }
 
-await run`git checkout master`
+await run`git checkout ${startingCommit}`
