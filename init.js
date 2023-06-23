@@ -59,7 +59,6 @@ const parser = await parserFromWasm(javascript)
             }
             // this exists to make regex``.i, regex``.gi, etc work
             const regex = new RegExp(newRegexString)
-            Object.defineProperties(regex, properties)
             return proxyRegExp(newRegexString,"")
         }
     }
