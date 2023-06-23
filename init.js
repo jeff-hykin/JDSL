@@ -107,20 +107,20 @@ try {
                                 break // ran out of characters
                             }
                         }
-                        try {
-                            newCode = newCode.replace(new RegExp(`\\b${methodName}\\b`, "g"), "classes[Class]")
-                            classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
-                            if (!methods[methodName]) {
-                                console.debug(`classes[Class] is:`,classes[Class])
-                                console.debug(`newCode is:`,newCode)
-                                console.debug(`eval(newCode) is:`,eval(newCode))
-                            }
-                        } catch (error) {
+                    }
+                    try {
+                        newCode = newCode.replace(new RegExp(`\\b${methodName}\\b`, "g"), "classes[Class]")
+                        classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                        if (!methods[methodName]) {
+                            console.debug(`classes[Class] is:`,classes[Class])
                             console.debug(`newCode is:`,newCode)
-                            console.log(`classes is:`,toRepresentation( classes))
-                            console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
-                            console.debug(`error.stack is:`,error.stack)
+                            console.debug(`eval(newCode) is:`,eval(newCode))
                         }
+                    } catch (error) {
+                        console.debug(`newCode is:`,newCode)
+                        console.log(`classes is:`,toRepresentation( classes))
+                        console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                        console.debug(`error.stack is:`,error.stack)
                     }
                     console.groupEnd()
                 }
