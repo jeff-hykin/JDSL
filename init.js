@@ -21,7 +21,7 @@ for (const each of filePaths) {
         console.group()
         console.debug(`loading ${each.path}`)
         const parentPath = FileSystem.parentPath(each.path)
-        await run`git checkout ${startingCommit}`
+        console.log(`        ${await run`git checkout ${startingCommit} ${Stdout(returnAsString)}`}`)
         const output = await FileSystem.read(each.path)
         if (!output) {
             console.debug(`each.path: ${each.path}`)
@@ -42,7 +42,7 @@ for (const each of filePaths) {
             for (const eachFunctionNumber of Functions) {
                 console.group()
                 console.log(`loading ${eachFunctionNumber.toString(16)}`)
-                await run`git checkout ${eachFunctionNumber.toString(16)}`
+                console.log(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Stdout(returnAsString)}`}`)
                 const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                 const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                 
