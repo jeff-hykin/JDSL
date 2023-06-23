@@ -111,6 +111,10 @@ async function doStuff() {
                                 }
                                 try {
                                     classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                                    if (!methods[methodName]) {
+                                        console.debug(`newCode is:`,newCode)
+                                        console.debug(`eval(newCode) is:`,eval(newCode))
+                                    }
                                 } catch (error) {
                                     console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
                                     console.debug(`error.stack is:`,error.stack)
