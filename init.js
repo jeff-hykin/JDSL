@@ -19,6 +19,7 @@ for (const each of filePaths) {
         console.group()
         console.debug(`loading ${each.path}`)
         const parentPath = FileSystem.parentPath(each.path)
+        await run`git checkout ${startingCommit}`
         const output = await FileSystem.read(each.path)
         if (!output) {
             console.debug(`each.path: ${each.path}`)
@@ -115,7 +116,7 @@ for (const each of filePaths) {
             // call constructor if it exists
             if (Object.keys(methods).includes("constructor")) {
                 try {
-                    const newObject = classes[Class]()
+                    const newObject = new classes[Class]()
                     // call the constructor
                     await methods.constructor.apply(newObject, {})
                 } catch (error) {
@@ -123,7 +124,6 @@ for (const each of filePaths) {
                     console.debug(`error.stack is:`,error.stack)
                 }
             }
-            await run`git checkout ${startingCommit}`
         } catch (error) {
             console.log(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
             console.debug(`error.stack is:`,error.stack)
