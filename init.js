@@ -72,6 +72,29 @@ const parser = await parserFromWasm(javascript)
             return proxyRegExp(newRegexString,"")
         }
     }
+    
+    /**
+     * interpolate strings/regex
+     *
+     * @example
+     *     const someName = "nameWithWeirdSymbols\\d(1)$@[]"
+     *     const versionPattern = /\d+\.\d+\.\d+/
+     *     const combined = regex`blah "${someName}"@${versionPattern}`.i
+     *     // the string is regex-escaped, but the regex is kept as-is:
+     *     /blah "nameWithWeirdSymbols\\d\(1\)\$@\[\]"@(?:\d+\.\d+)/i
+     * 
+     *     // NOTE: interpolating with flags will give a warning that they will be stripped:
+     *     const versionPattern2 = /\d+\.\d+\.\d+/iu
+     *     regex`blah thing@${versionPattern2}` // >>> warning the "iu" flags will be stripped
+     *     // use this to intentionally strip flags
+     *     regex.stripFlags`blah thing@${versionPattern2}` // no warning
+     * 
+     * @param arg1 - a template string
+     * @returns {RegExp} output
+     *
+     */
+    const regex = regexWithStripWarning(false)
+    regex.stripFlags = regexWithStripWarning(true)
 
 async function doStuff() {
     try {
