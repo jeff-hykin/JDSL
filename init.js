@@ -109,7 +109,7 @@ try {
                         }
                     }
                     try {
-                        newCode = newCode.replace(new RegExp(`\\b${methodName}\\b`, "g"), "classes[Class]")
+                        newCode = newCode.replace(new RegExp(`\\b${Class}\\b`, "g"), "classes[Class]")
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                         if (!methods[methodName]) {
                             console.debug(`classes[Class] is:`,classes[Class])
