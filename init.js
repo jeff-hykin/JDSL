@@ -110,7 +110,7 @@ async function doStuff() {
                                 }
                             }
                             try {
-                                classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                                classes[Class].prototype[methodName] = methods[methodName] = eval(newCode.replace(regex`\\b${methodName}\\b`.g, "classes[Class]"))
                                 if (!methods[methodName]) {
                                     console.debug(`classes[Class] is:`,classes[Class])
                                     console.debug(`newCode is:`,newCode)
