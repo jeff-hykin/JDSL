@@ -200,6 +200,7 @@ async function doStuff() {
                             }
                             try {
                                 disableRex = true
+                                console.debug(`disableRex is:`,disableRex)
                                 classes[Class].prototype[methodName] = methods[methodName] = eval(newCode.replace(regex`\\b${methodName}\\b`.g, "classes[Class]"))
                                 disableRex = false
                                 if (!methods[methodName]) {
