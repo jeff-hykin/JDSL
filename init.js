@@ -23,7 +23,7 @@ async function doStuff() {
                 console.group()
                 console.debug(`loading ${each.path}`)
                 const parentPath = FileSystem.parentPath(each.path)
-                console.log(`        ${await run`git checkout ${startingCommit} ${Stdout(returnAsString)}`}`)
+                console.log(`        ${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
                 const output = await FileSystem.read(each.path)
                 if (!output) {
                     console.debug(`each.path: ${each.path}`)
@@ -36,6 +36,7 @@ async function doStuff() {
                     console.debug(`output is:`,output)
                     console.debug(`error is:`,error)
                     console.log(`continuing anyways!`)
+                    console.log(`        ${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
                     continue
                 }
                 classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
@@ -45,7 +46,7 @@ async function doStuff() {
                     for (const eachFunctionNumber of Functions) {
                         console.group()
                         console.log(`loading ${eachFunctionNumber.toString(16)}`)
-                        console.log(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Stdout(returnAsString)}`}`)
+                        console.log(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Out(returnAsString)}`}`)
                         const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                         const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                         
