@@ -15,6 +15,12 @@ const parser = await parserFromWasm(javascript)
 // 
     // these are helpers for the .i part, which requires a proxy object
     // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
+    const realExec = RegExp.prototype.exec
+    RegExp.prototype.exec = function (...args) {
+        console.debug(`args is:`,args)
+        console.debug(`this is:`,this)
+        return realExec.apply(this, args)
+    }
     const proxyRegExp = (parent, flags)=> {
         const regex = new RegExp(parent, flags)
         const output = new Proxy(regex, Object.freeze({
