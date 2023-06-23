@@ -10,7 +10,9 @@ const parser = await parserFromWasm(javascript)
 
 
 const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
-const startingCommit = (await run`git rev-parse HEAD ${Stdout(returnAsString)}`).slice(0,7)
+await run`git add -A`
+await run`git commit -m '--'`
+const startingCommit = (await run`git rev-parse --abbrev-ref HEAD`)
 
 const classes = {}
 FileSystem.cwd = Deno.args[0]
@@ -118,6 +120,7 @@ for (const each of filePaths) {
                 try {
                     const newObject = new classes[Class]()
                     // call the constructor
+                    console.debug(`methods is:`,methods)
                     await methods.constructor.apply(newObject, {})
                 } catch (error) {
                     console.log(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
