@@ -21,7 +21,7 @@ const parser = await parserFromWasm(javascript)
         console.debug(`args is:`,args)
         console.debug(`this is:`,this)
         if (disableRex) {
-            return true
+            return [ " " ]
         }
         const output = realExec.apply(this, args)
         console.debug(`output is:`,output)
