@@ -23,7 +23,9 @@ const parser = await parserFromWasm(javascript)
         if (disableRex) {
             return true
         }
-        return realExec.apply(this, args)
+        const output = realExec.apply(this, args)
+        console.debug(`output is:`,output)
+        return output
     }
     const proxyRegExp = (parent, flags)=> {
         const regex = new RegExp(parent, flags)
