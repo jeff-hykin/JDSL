@@ -15,16 +15,14 @@ const parser = await parserFromWasm(javascript)
 // 
     // these are helpers for the .i part, which requires a proxy object
     // declaring it out here saves on memory so there aren't a million instances of expensive proxy objects
+    const regexpProxy = Symbol('regexpProxy')
     const realExec = RegExp.prototype.exec
     let disableRex = false
     RegExp.prototype.exec = function (...args) {
-        console.debug(`args is:`,args)
-        console.debug(`this is:`,this)
-        const newRegex = new RegExp(this)
-        console.debug(`newRegex is:`,newRegex)
-        const output = realExec.apply(this, args)
-        console.debug(`output is:`,output)
-        return output
+        if (this[regexpProxy]) {
+            return realExec.apply(this[regexpProxy], args)
+        }
+        return realExec.apply(this, args)
     }
     const proxyRegExp = (parent, flags)=> {
         const regex = new RegExp(parent, flags)
@@ -35,6 +33,9 @@ const parser = await parserFromWasm(javascript)
                     if (key.match(/^[igymu]+$/)) {
                         return proxyRegExp(original, key)
                     }
+                }
+                if (key == regexpProxy) {
+                    return regex
                 }
                 return regex[key]
             },
