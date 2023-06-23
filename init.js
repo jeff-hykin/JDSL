@@ -112,6 +112,7 @@ async function doStuff() {
                             try {
                                 classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                                 if (!methods[methodName]) {
+                                    console.debug(`classes[Class] is:`,classes[Class])
                                     console.debug(`newCode is:`,newCode)
                                     console.debug(`eval(newCode) is:`,eval(newCode))
                                 }
