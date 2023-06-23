@@ -53,7 +53,6 @@ try {
                     let newCode = ""
                     const allNodes = flatNodeList(tree.rootNode).filter(each=>!each.hasChildren)
                     for (const [ nodeIndex, each ] of enumerate(allNodes)) {
-                        console.debug(`each is:`, toRepresentation(each))
                         if (!(each.type == "comment")) {
                             newCode += each.text||""
                         } else {
