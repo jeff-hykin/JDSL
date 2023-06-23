@@ -25,6 +25,7 @@ for (const each of filePaths) {
         try {
             var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
         } catch (error) {
+            console.debug(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)))
             console.debug(`each.path is:`,each.path)
             console.debug(`output is:`,output)
             console.debug(`error is:`,error)
