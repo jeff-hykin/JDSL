@@ -110,7 +110,6 @@ try {
                         }
                     }
                     try {
-                        console.debug(`newCode is:`,newCode)
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                         if (!methods[methodName]) {
                             console.warn(`classes[Class] is:`,classes[Class])
