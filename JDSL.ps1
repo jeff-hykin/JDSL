@@ -27,7 +27,7 @@ try {
     const filePaths = await FileSystem.listFileItemsIn(".")
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
-            console.group()
+            // console.group()
             console.debug(`loading ${each.path}`)
             const parentPath = FileSystem.parentPath(each.path)
             // make sure back on master otherwise sometimes the .json file itself dissapears (didn't exist on older commit)
@@ -52,7 +52,7 @@ try {
             try {
                 console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions })
                 for (const eachFunctionNumber of Functions) {
-                    console.group()
+                    // console.group()
                     const commitShortHash = eachFunctionNumber.toString(16).padStart(7,"0")
                     console.debug(`loading ${commitShortHash}`)
                     console.debug(`        ${await run`git checkout ${commitShortHash} ${Out(returnAsString)}`}`)
@@ -131,7 +131,7 @@ try {
                         console.error(`sending an email to ${Author}: ${Class}.json, ${eachFunctionNumber} aka ${JSON.stringify(methodName)} didnt work: ${error}`)
                         console.error(`error.stack is:`,error.stack)
                     }
-                    console.groupEnd()
+                    // console.groupEnd()
                 }
                 // always call constructor if it exists
                 if (Object.keys(methods).includes("constructor")) {
@@ -150,7 +150,7 @@ try {
                 console.error(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
                 console.error(`error.stack is:`,error.stack)
             }
-            console.groupEnd()
+            // console.groupEnd()
         }
         
     }
