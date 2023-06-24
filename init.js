@@ -71,7 +71,9 @@ try {
                             const snippetIsValid = async (snippet)=>{
                                 try {
                                     // if it passes eval, then its valid 😜
-                                    await eval(`${newCode}${snippet}${remainingText}`)
+                                    const proposedCode = `${newCode}${snippet}${remainingText}`
+                                    console.debug(`proposedCode is:`,proposedCode)
+                                    await eval(proposedCode)
                                     newCode += snippet
                                     return true
                                 } catch (error) {
