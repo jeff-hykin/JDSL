@@ -23,7 +23,7 @@ try {
     const startingCommit = (await run`git rev-parse --abbrev-ref HEAD ${Stdout(returnAsString)}`).replace(/\n/g,"")
 
     const classes = {}
-    // FileSystem.cwd = Deno.args[0]
+    FileSystem.cwd = Deno.args[0]
     const filePaths = await FileSystem.listFileItemsIn(".")
     console.debug(`filePaths is:`,filePaths)
     for (const each of filePaths) {
