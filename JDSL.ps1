@@ -27,8 +27,6 @@ try {
     const filePaths = await FileSystem.listFileItemsIn(".")
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
-            ;(debug && console.group());
-            ;(debug && console.debug(`loading ${each.path}`));
             const parentPath = FileSystem.parentPath(each.path)
             // make sure back on master otherwise sometimes the .json file itself dissapears (didn't exist on older commit)
             ;(debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`));
