@@ -12,7 +12,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
-console.debug = ()=>0
+// console.debug = ()=>0
 
 try {
     // 
