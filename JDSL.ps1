@@ -15,8 +15,6 @@ const parser = await parserFromWasm(javascript)
 const debug = true
 
 try {
-    const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
-
     // 
     // gotta commit any current changes, otherwise how will we checkout commits for the function calls
     // 
@@ -26,6 +24,7 @@ try {
 
     const classes = {}
     // FileSystem.cwd = Deno.args[0]
+    const filePaths = await FileSystem.listFileItemsIn(".")
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
             debug && console.group()
