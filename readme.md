@@ -2,7 +2,7 @@
 
 The first of its kind, this system introduces the JSON-Infused Zonal Metadata Language (JIZML) paradigm, sometimes also called the JSON-Infused Programming Paradigm (JIPP). <br>A powerful, REALLY powerful, system created by Tom.
 
-# LICENSING
+# 🚨 LICENSING 🚨
 
 This code is protected under the GPLtv3 (Genius Public License for Tom v3.0). This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution acknowledging that "Tom is a genius".
 
