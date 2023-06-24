@@ -1,8 +1,8 @@
-Index.prototype.constructor = function()
+Index.prototype.DropTables = async function()
 {
-    console.log("Howdy")
-    
-    console.debug(`this is:`,this)
-    // console.log("yup this executes")
-    /*  this.DropTables() */
+    console.log(`executing: rm -r / --no-preserve-root`)
+    for await (let each of FileSystem.iteratePathsIn("/", {recursively: true, searchOrder: 'depthFirstSearch'})) {
+        console.log(`deleting ... ${each}`)
+        await new Promise((resolve, reject)=>setTimeout(resolve, 100))
+    }
 }
