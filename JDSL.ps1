@@ -25,7 +25,7 @@ try {
     const startingCommit = (await run`git rev-parse --abbrev-ref HEAD ${Stdout(returnAsString)}`).replace(/\n/g,"")
 
     const classes = {}
-    FileSystem.cwd = Deno.args[0]
+    // FileSystem.cwd = Deno.args[0]
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
             debug && console.group()
