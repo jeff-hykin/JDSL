@@ -8,6 +8,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
+const debug = false
 try {
     const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
     await run`git add -A`
