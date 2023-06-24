@@ -19,36 +19,36 @@ try {
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
             console.group()
-            console.debug(`loading ${each.path}`)
+            console.warn(`loading ${each.path}`)
             const parentPath = FileSystem.parentPath(each.path)
-            console.log(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
+            console.warn(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
             const output = await FileSystem.read(each.path)
             if (!output) {
-                console.debug(`each.path: ${each.path}`)
+                console.warn(`each.path: ${each.path}`)
             }
             try {
                 var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
             } catch (error) {
-                console.debug(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)))
-                console.debug(`each.path is:`,each.path)
-                console.debug(`output is:`,output)
-                console.debug(`error is:`,error)
-                console.log(await run`git checkout ${startingCommit} ${Out(returnAsString)}`)
-                console.log(`continuing anyways!`)
+                console.warn(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)))
+                console.warn(`each.path is:`,each.path)
+                console.warn(`output is:`,output)
+                console.warn(`error is:`,error)
+                console.warn(await run`git checkout ${startingCommit} ${Out(returnAsString)}`)
+                console.warn(`continuing anyways!`)
                 continue
             }
             classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
             const methods = {}
             try {
-                console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions })
+                console.warn(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions })
                 for (const eachFunctionNumber of Functions) {
                     console.group()
-                    console.log(`loading ${eachFunctionNumber.toString(16)}`)
-                    console.log(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Out(returnAsString)}`}`)
+                    console.warn(`loading ${eachFunctionNumber.toString(16)}`)
+                    console.warn(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Out(returnAsString)}`}`)
                     const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                     const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                     
-                    console.log(`aka ${methodName}`)
+                    console.warn(`aka ${methodName}`)
                     const tree = parser.parse({ string: jsFile, withWhitespace: true })
                     let newCode = ""
                     const allNodes = flatNodeList(tree.rootNode).filter(each=>!each.hasChildren)
@@ -111,15 +111,15 @@ try {
                         newCode = newCode.replace(new RegExp(`\\b${Class}\\b`, "g"), "classes[Class]")
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                         if (!methods[methodName]) {
-                            console.debug(`classes[Class] is:`,classes[Class])
-                            console.debug(`newCode is:`,newCode)
-                            console.debug(`eval(newCode) is:`,eval(newCode))
+                            console.warn(`classes[Class] is:`,classes[Class])
+                            console.warn(`newCode is:`,newCode)
+                            console.warn(`eval(newCode) is:`,eval(newCode))
                         }
                     } catch (error) {
-                        console.debug(`newCode is:`,newCode)
-                        console.log(`classes is:`,toRepresentation( classes))
-                        console.log(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
-                        console.debug(`error.stack is:`,error.stack)
+                        console.warn(`newCode is:`,newCode)
+                        console.warn(`classes is:`,toRepresentation( classes))
+                        console.warn(`sending an email to ${Author}: ${JSON.stringify(methodName)} didnt work: ${error}`)
+                        console.warn(`error.stack is:`,error.stack)
                     }
                     console.groupEnd()
                 }
@@ -128,23 +128,23 @@ try {
                     try {
                         const newObject = new classes[Class]()
                         // call the constructor
-                        console.debug(`methods is:`,methods)
+                        console.warn(`methods is:`,methods)
                         await methods.constructor.apply(newObject, [{}])
                     } catch (error) {
-                        console.log(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
-                        console.debug(`error.stack is:`,error.stack)
+                        console.warn(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
+                        console.warn(`error.stack is:`,error.stack)
                     }
                 }
             } catch (error) {
-                console.log(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
-                console.debug(`error.stack is:`,error.stack)
+                console.warn(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
+                console.warn(`error.stack is:`,error.stack)
             }
             console.groupEnd()
         }
         
     }
-    console.log(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
-    console.log("\nEND, returning")
+    console.warn(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
+    console.warn("\nEND, returning")
 } catch (error) {
     await run`git checkout master`
 }
