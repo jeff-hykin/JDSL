@@ -68,17 +68,14 @@ try {
                                 text = text.slice(2)
                             }
                             
-                            console.debug(`text is:`,text)
                             const snippetIsValid = async (snippet)=>{
                                 try {
                                     // if it passes eval, then its valid 😜
                                     const proposedCode = `${newCode}${snippet}${remainingText}`
-                                    console.debug(`proposedCode is:`,proposedCode)
                                     await eval(proposedCode)
                                     newCode += snippet
                                     return true
                                 } catch (error) {
-                                    console.debug(`error is:`,error)
                                     try {
                                         // gotta try automatic semicolon injection
                                         await eval(`${newCode};${snippet}${remainingText}`)
@@ -113,7 +110,6 @@ try {
                         }
                     }
                     try {
-                        console.debug(`newCode is:`,newCode)
                         newCode = newCode.replace(new RegExp(`\\b${Class}\\b`, "g"), "classes[Class]")
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                         if (!methods[methodName]) {
