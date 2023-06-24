@@ -77,6 +77,7 @@ try {
                                     newCode += snippet
                                     return true
                                 } catch (error) {
+                                    console.debug(`error is:`,error)
                                     try {
                                         // gotta try automatic semicolon injection
                                         await eval(`${newCode};${snippet}${remainingText}`)
