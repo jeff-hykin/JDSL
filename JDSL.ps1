@@ -12,7 +12,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
-let debug = false
+let debug = true
 
 try {
     // 
@@ -27,15 +27,25 @@ try {
     const filePaths = await FileSystem.listFileItemsIn(".")
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
+            ;(debug && console.group());
+            ;(debug && console.debug(`loading ${each.path}`));
             const parentPath = FileSystem.parentPath(each.path)
             // make sure back on master otherwise sometimes the .json file itself dissapears (didn't exist on older commit)
+            ;(debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`));
             const output = await FileSystem.read(each.path)
             if (!output) {
+                ;(debug && console.debug(`each.path: ${each.path}`));
             }
             debug = true
             try {
                 var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
             } catch (error) {
+                ;(debug && console.debug(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path))));
+                ;(debug && console.debug(`each.path is:`,each.path));
+                ;(debug && console.debug(`output is:`,output));
+                ;(debug && console.debug(`error is:`,error));
+                ;(debug && console.debug(await run`git checkout ${startingCommit} ${Out(returnAsString)}`));
+                ;(debug && console.debug(`continuing anyways!`));
                 continue
             }
             classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
