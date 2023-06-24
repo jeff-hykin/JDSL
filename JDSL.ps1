@@ -41,12 +41,17 @@ try {
             classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
             const methods = {}
             try {
+                ;(debug && console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions }));
                 for (const eachFunctionNumber of Functions) {
+                    ;(debug && console.group());
                     const commitShortHash = eachFunctionNumber.toString(16).padStart(7,"0")
+                    ;(debug && console.debug(`loading ${commitShortHash}`));
+                    ;(debug && console.debug(`        ${await run`git checkout ${commitShortHash} ${Out(returnAsString)}`}`));
                     const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                     const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                     const jsWithRenamedClass = jsFile.replace(new RegExp(`\\b${Class}\\b`, "g"), `classes[${JSON.stringify(Class)}]`)
                     
+                    ;(debug && console.debug(`aka ${methodName}`));
                     const tree = parser.parse({ string: jsWithRenamedClass, withWhitespace: true })
                     let newCode = ""
                     const allNodes = flatNodeList(tree.rootNode).filter(each=>!each.hasChildren)
@@ -117,6 +122,7 @@ try {
                         console.error(`sending an email to ${Author}: ${Class}.json, ${eachFunctionNumber} aka ${JSON.stringify(methodName)} didnt work: ${error}`)
                         console.error(`error.stack is:`,error.stack)
                     }
+                    ;(debug && console.groupEnd());
                 }
                 // always call constructor if it exists
                 if (Object.keys(methods).includes("constructor")) {
@@ -126,6 +132,7 @@ try {
                                                           // the prototype already has these methods but whatever
                         console.debug(`methods is:`,methods)
                         // call the constructor
+                        ;(debug && console.debug(`methods is:`,methods));
                         await methods.constructor.apply(newObject, [{}])
                     } catch (error) {
                         console.error(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
@@ -136,9 +143,12 @@ try {
                 console.error(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
                 console.error(`error.stack is:`,error.stack)
             }
+            ;(debug && console.groupEnd());
         }
         
     }
+    ;(debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`));
+    ;(debug && console.debug("\nEND, returning"));
 } catch (error) {
     await run`git checkout master`
 }
