@@ -12,7 +12,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
-let debug = true
+console.debug = ()=>0
 
 try {
     // 
@@ -27,36 +27,40 @@ try {
     const filePaths = await FileSystem.listFileItemsIn(".")
     for (const each of filePaths) {
         if (each.path.endsWith(".json")) {
+            console.group()
+            console.debug(`loading ${each.path}`)
             const parentPath = FileSystem.parentPath(each.path)
             // make sure back on master otherwise sometimes the .json file itself dissapears (didn't exist on older commit)
-            ;(debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`));
+            console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
             const output = await FileSystem.read(each.path)
-            debug = true
+            if (!output) {
+                console.debug(`each.path: ${each.path}`)
+            }
             try {
                 var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
             } catch (error) {
-                ;(debug && console.debug(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path))));
-                ;(debug && console.debug(`each.path is:`,each.path));
-                ;(debug && console.debug(`output is:`,output));
-                ;(debug && console.debug(`error is:`,error));
-                ;(debug && console.debug(await run`git checkout ${startingCommit} ${Out(returnAsString)}`));
-                ;(debug && console.debug(`continuing anyways!`));
+                console.debug(`await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)) is:`,await FileSystem.listFileItemsIn(FileSystem.parentPath(each.path)))
+                console.debug(`each.path is:`,each.path)
+                console.debug(`output is:`,output)
+                console.debug(`error is:`,error)
+                console.debug(await run`git checkout ${startingCommit} ${Out(returnAsString)}`)
+                console.debug(`continuing anyways!`)
                 continue
             }
             classes[Class] = eval(`(()=>{ class ${Class} {}; return ${Class} })()`)
             const methods = {}
             try {
-                ;(debug && console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions }));
+                console.debug(`{ File, Class, Author, Purpose, Functions } is:`,{ File, Class, Author, Purpose, Functions })
                 for (const eachFunctionNumber of Functions) {
-                    ;(debug && console.group());
+                    console.group()
                     const commitShortHash = eachFunctionNumber.toString(16).padStart(7,"0")
-                    ;(debug && console.debug(`loading ${commitShortHash}`));
-                    ;(debug && console.debug(`        ${await run`git checkout ${commitShortHash} ${Out(returnAsString)}`}`));
+                    console.debug(`loading ${commitShortHash}`)
+                    console.debug(`        ${await run`git checkout ${commitShortHash} ${Out(returnAsString)}`}`)
                     const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                     const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
                     const jsWithRenamedClass = jsFile.replace(new RegExp(`\\b${Class}\\b`, "g"), `classes[${JSON.stringify(Class)}]`)
                     
-                    ;(debug && console.debug(`aka ${methodName}`));
+                    console.debug(`aka ${methodName}`)
                     const tree = parser.parse({ string: jsWithRenamedClass, withWhitespace: true })
                     let newCode = ""
                     const allNodes = flatNodeList(tree.rootNode).filter(each=>!each.hasChildren)
@@ -127,7 +131,7 @@ try {
                         console.error(`sending an email to ${Author}: ${Class}.json, ${eachFunctionNumber} aka ${JSON.stringify(methodName)} didnt work: ${error}`)
                         console.error(`error.stack is:`,error.stack)
                     }
-                    ;(debug && console.groupEnd());
+                    console.groupEnd()
                 }
                 // always call constructor if it exists
                 if (Object.keys(methods).includes("constructor")) {
@@ -135,9 +139,7 @@ try {
                         const newObject = new classes[Class]()
                         Object.assign(newObject, methods) // I shouldn't have to do this because
                                                           // the prototype already has these methods but whatever
-                        console.debug(`methods is:`,methods)
                         // call the constructor
-                        ;(debug && console.debug(`methods is:`,methods));
                         await methods.constructor.apply(newObject, [{}])
                     } catch (error) {
                         console.error(`sending an email to ${Author}: ${JSON.stringify("constructor")} didnt work: ${error}`)
@@ -148,12 +150,12 @@ try {
                 console.error(`sending an email to ${Author}: ${JSON.stringify(error)}, ${error}`)
                 console.error(`error.stack is:`,error.stack)
             }
-            ;(debug && console.groupEnd());
+            console.groupEnd()
         }
         
     }
-    ;(debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`));
-    ;(debug && console.debug("\nEND, returning"));
+    console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
+    console.debug("\nEND, returning")
 } catch (error) {
     await run`git checkout master`
 }
