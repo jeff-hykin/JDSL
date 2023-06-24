@@ -47,7 +47,7 @@ try {
                     console.warn(`        ${await run`git checkout ${eachFunctionNumber.toString(16)} ${Out(returnAsString)}`}`)
                     const jsFile = await FileSystem.read(`${parentPath}/${each.name}.js`)
                     const methodName = jsFile.match(new RegExp(`${Class}\\.prototype\\.(\\w+)`))[1]
-                    const jsWithRenamedClass = jsFile.replace(new RegExp(`\\b${Class}\\b`, "g"), `classes[${Class}]`)
+                    const jsWithRenamedClass = jsFile.replace(new RegExp(`\\b${Class}\\b`, "g"), `classes[${JSON.stringify(Class)}]`)
                     
                     console.warn(`aka ${methodName}`)
                     const tree = parser.parse({ string: jsWithRenamedClass, withWhitespace: true })
