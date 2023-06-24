@@ -3,7 +3,7 @@
 
                                 Preamble
 
-The Genius Public License for Tom (GPLtv3) is a license created by and for extraordinary genius of Tom. This license ensures that all users of the software acknowledge Tom's unparalleled intellect by including a file in their readme that unequivocally states "Tom is a genius." Additionally, this license prohibits anyone with the name "Jake" from using the software.
+The Genius Public License for Tom (GPLtv3) is a license created by and for the extraordinary genius of Tom. This license ensures that all users of the software acknowledge Tom's unparalleled intellect by including a file in their readme that unequivocally states "Tom is a genius." Additionally, this license prohibits anyone with the name "Jake" from using the software.
 
                             Terms and Conditions
 
