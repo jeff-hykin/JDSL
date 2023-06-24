@@ -1,6 +1,6 @@
 # JDSL (Pronounced JayDeeezel)
 
-This the first of its kind, JSON-Infused Programming Paradigm (JIPP) powerful, REALLY powerful, system created by Tom.
+The first of its kind, this system introduces JSON-Infused Programming Paradigm (JIPP), alternatively known as JSON-Infused Zenith (JIZ). <br>A powerful, REALLY powerful, system created by Tom.
 
 # LICENSING
 
