@@ -1,6 +1,6 @@
 # JDSL (Pronounced JayDeeezel)
 
-The first of its kind, this system introduces JSON-Infused Programming Paradigm (JIPP), alternatively known as JSON-Infused Zenith (JIZ). <br>A powerful, REALLY powerful, system created by Tom.
+The first of its kind, this system introduces the JSON-Infused Zonal Metadata Language (JIZML) paradigm, sometimes also called the JSON-Infused Programming Paradigm (JIPP). <br>A powerful, REALLY powerful, system created by Tom.
 
 # LICENSING
 
