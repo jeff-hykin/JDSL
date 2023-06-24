@@ -1,6 +1,6 @@
 # JDSL (Pronounced JayDeeezel)
 
-This the a powerful (REALLY powerful) system created by Tom.
+This the first of its kind, JSON-Infused Programming Paradigm (JIPP) powerful, REALLY powerful, system created by Tom.
 
 # LICENSING
 
