@@ -12,7 +12,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
-const debug = false
+let debug = false
 
 try {
     // 
@@ -36,6 +36,7 @@ try {
             if (!output) {
                 ;(debug && console.debug(`each.path: ${each.path}`));
             }
+            debug = true
             try {
                 var { File, Class, Author, Purpose, Functions } = JSON.parse(output)
             } catch (error) {
