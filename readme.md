@@ -31,4 +31,4 @@ To add a method to a class, you must find the abbreviated git commit hash (ex: `
 }
 ```
 
-* footnote: JDSL does NOT support comments!
+* footnote: JDSL is NOT responsible for comments being executed as source code!
