@@ -67,6 +67,7 @@ try {
                                 text = text.slice(2)
                             }
                             
+                            console.debug(`text is:`,text)
                             const snippetIsValid = async (snippet)=>{
                                 try {
                                     // if it passes eval, then its valid 😜
