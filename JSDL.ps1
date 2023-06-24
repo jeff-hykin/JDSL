@@ -15,8 +15,8 @@ const parser = await parserFromWasm(javascript)
 const debug = false
 try {
     const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
-    await run`git add -A`
-    await run`git commit -m '--'`
+    await run`git add -A ${Stdout(null)}`
+    await run`git commit -m '--' ${Stdout(null)}`
     const startingCommit = (await run`git rev-parse --abbrev-ref HEAD ${Stdout(returnAsString)}`).replace(/\n/g,"")
 
     const classes = {}
