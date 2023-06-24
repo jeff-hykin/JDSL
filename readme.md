@@ -6,7 +6,7 @@ The first of its kind, this system introduces the JSON-Infused Zonal Metadata La
 
 This code is protected under the GPLtv3 (the **Genius** Public License for Tom v3.0). This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution about Tom being a genius.
 
-You MUST see the LICENSE.md for full details.
+*You MUST see the LICENSE.md for full details.*
 
 # Usage
 
