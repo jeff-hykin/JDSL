@@ -125,7 +125,7 @@ try {
                     }
                     try {
                         // attach the method to the prototype
-                        classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
+                        classes[Class].prototype[methodName] = methods[methodName] = eval(newCode).bind(classes[Class].prototype)
                     } catch (error) {
                         console.error(`code is:`,newCode)
                         console.error(`sending an email to ${Author}: ${Class}.json, ${eachFunctionNumber} aka ${JSON.stringify(methodName)} didnt work: ${error}`)
