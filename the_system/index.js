@@ -4,6 +4,7 @@ Index.prototype.constructor = function()
     
     
     // console.log("yup this executes")
+    console.debug(`this is:`,this)
     /* 
        setTimeout(() => {
           this.DropTables()
