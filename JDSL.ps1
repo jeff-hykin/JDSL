@@ -14,7 +14,7 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 
 const parser = await parserFromWasm(javascript)
 
-console.debug = ()=>0 // turn off debugging
+console.debug = ()=>0 // turn off debugging (Elegant I know)
 
 try {
     // 
