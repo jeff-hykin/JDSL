@@ -13,8 +13,13 @@ import javascript from "https://github.com/jeff-hykin/common_tree_sitter_languag
 const parser = await parserFromWasm(javascript)
 
 const debug = false
+
 try {
     const filePaths = await FileSystem.listFileItemsIn(Deno.args[0])
+
+    // 
+    // gotta commit any current changes, otherwise how will we checkout commits for the function calls
+    // 
     await run`git add -A ${Stdout(null)}`
     await run`git commit -m '--' ${Stdout(null)}`
     const startingCommit = (await run`git rev-parse --abbrev-ref HEAD ${Stdout(returnAsString)}`).replace(/\n/g,"")
@@ -26,6 +31,7 @@ try {
             debug && console.group()
             debug && console.debug(`loading ${each.path}`)
             const parentPath = FileSystem.parentPath(each.path)
+            // make sure back on master otherwise sometimes the .json file itself dissapears (didn't exist on older commit)
             debug && console.debug(`${await run`git checkout ${startingCommit} ${Out(returnAsString)}`}`)
             const output = await FileSystem.read(each.path)
             if (!output) {
@@ -66,16 +72,16 @@ try {
                             const remainingText = allNodes.slice(nodeIndex+1,).filter(each=>each.type!=="comment").map(each=>each.text).join("")
                             // must try to make every bit of potentially-executable code executable
 
-                            // slice off the comment-y stuff
+                            // slice off the comment-y punctuation stuff
                             if (text.startsWith("/*")) {
                                 text = text.slice(2,-2)
                             } else {
                                 text = text.slice(2)
                             }
                             
+                            // if it passes eval, then its valid code 😜
                             const snippetIsValid = async (snippet)=>{
                                 try {
-                                    // if it passes eval, then its valid 😜
                                     const proposedCode = `${newCode}${snippet}${remainingText}`
                                     await eval(proposedCode)
                                     newCode += snippet
@@ -94,7 +100,10 @@ try {
                                 return false
                             }
                             
-                            // gotta try all the combinations to make sure comments execute as valid code
+                            // 
+                            // gotta brute force try all the sub-stirng combinations to make sure we 
+                            // execute as comments as JDSL-y possible
+                            // 
                             tryNext: while (true) {
                                 for (const [startIndex, _] of enumerate(text)) {
                                     for (const [endIndex, __] of enumerate(text+" ").reverse()) {
@@ -103,7 +112,7 @@ try {
                                             // if there's still some text remaining, try to make it valid too
                                             if (text.length != 0) {
                                                 continue tryNext
-                                            // otherwise were done
+                                            // otherwise we're done
                                             } else {
                                                 break tryNext
                                             }
@@ -115,20 +124,16 @@ try {
                         }
                     }
                     try {
+                        // attach the method to the prototype
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
-                        if (!methods[methodName]) {
-                            debug && console.debug(`classes[Class] is:`,classes[Class])
-                            debug && console.debug(`newCode is:`,newCode)
-                            debug && console.debug(`eval(newCode) is:`,eval(newCode))
-                        }
                     } catch (error) {
-                        console.error(`newCode is:`,newCode)
+                        console.error(`code is:`,newCode)
                         console.error(`sending an email to ${Author}: ${Class}.json, ${eachFunctionNumber} aka ${JSON.stringify(methodName)} didnt work: ${error}`)
                         console.error(`error.stack is:`,error.stack)
                     }
                     debug && console.groupEnd()
                 }
-                // call constructor if it exists
+                // always call constructor if it exists
                 if (Object.keys(methods).includes("constructor")) {
                     try {
                         const newObject = new classes[Class]()
