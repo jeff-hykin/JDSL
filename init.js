@@ -110,6 +110,7 @@ try {
                         }
                     }
                     try {
+                        console.debug(`newCode is:`,newCode)
                         newCode = newCode.replace(new RegExp(`\\b${Class}\\b`, "g"), "classes[Class]")
                         classes[Class].prototype[methodName] = methods[methodName] = eval(newCode)
                         if (!methods[methodName]) {
