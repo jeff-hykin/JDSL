@@ -137,6 +137,8 @@ try {
                 if (Object.keys(methods).includes("constructor")) {
                     try {
                         const newObject = new classes[Class]()
+                        Object.assign(newObject, methods) // I shouldn't have to do this because
+                                                          // the prototype already has these methods but whatever
                         // call the constructor
                         debug && console.debug(`methods is:`,methods)
                         await methods.constructor.apply(newObject, [{}])
