@@ -10,12 +10,14 @@ This code is protected under the GPLtv3 (the **Genius** Public License for Tom v
 
 # Usage
 
-NOTE: All constructors will be executed in alphabetical order of class name when the system starts.
+Download the code, then run the following in the root of the folder:
 
 ```sh
 # works on Linux, Mac, and if you have run-scripts enabled for powershell on Windows it'll run on that too
 ./JDSL ./the_system
 ```
+
+NOTE: All constructors will be executed in alphabetical order of class name when the system starts.
 
 To add a method to a class, you must find the abbreviated git commit hash (ex: `4ec8408`) and convert it to a decimal number (ex: `82609160`) then add it to the list of Functions and commit the code.
 
