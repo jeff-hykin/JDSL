@@ -17,7 +17,8 @@ Download the code, then run the following in the root of the folder:
 ./JDSL ./the_system
 ```
 
-NOTE: All constructors will be executed in alphabetical order of class name when the system starts.
+- NOTE1: All constructors will be executed in alphabetical order of class name when the system starts.
+- NOTE2: JDSL is ***NOT*** responsible for any damages caused by comments that executed as code
 
 To add a method to a class, you must find the abbreviated git commit hash (ex: `4ec8408`) and convert it to a decimal number (ex: `82609160`) then add it to the list of Functions and commit the code.
 
@@ -33,4 +34,18 @@ To add a method to a class, you must find the abbreviated git commit hash (ex: `
 }
 ```
 
-* footnote: JDSL is NOT responsible for comments being executed as source code!
+example index.js:
+```js
+Index.prototype.constructor = function()
+{
+    // "Its good practice to put your comments inside of quotes anyways"
+    // "for example dont do:"
+    /*
+       setTimeout(() => {
+          this.DropTables()
+       }, 800) 
+    */
+}
+```
+
+
