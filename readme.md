@@ -4,7 +4,11 @@ The first source-avaiable version of [Tom's JDSL](https://www.youtube.com/watch?
 
 # 🚨 LICENSING 🚨
 
-This code is protected under the **Genius** Public License v3.0 (GPLv3, obviously). *You MUST see the [LICENSE](https://github.com/jeff-hykin/JDSL/blob/master/LICENCE) for full details.* This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution about Tom being a genius.
+This code is protected under the **Genius** Public License v3.0 (GPLv3, obviously).
+
+*You MUST see the [LICENSE](https://github.com/jeff-hykin/JDSL/blob/master/LICENCE) for full details.*
+
+This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution about Tom being a genius.
 
 # Usage
 
