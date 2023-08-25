@@ -1,12 +1,10 @@
-# [JDSL](https://www.youtube.com/watch?v=QwUPs5N9I6I) (Pronounced JayDeeezel)
+# JDSL (Pronounced JayDeeezel)
 
-The first of its kind, this system introduces the JSON-Infused Zonal Metadata Language (JIZML) paradigm. <br>A powerful, REALLY powerful, system created by Tom.
+The first source-avaiable version of [Tom's JDSL](https://www.youtube.com/watch?v=QwUPs5N9I6I); a system introduces the JSON-Infused Zonal Metadata Language (JIZML) paradigm. <br>A powerful, REALLY powerful, system created by Tom.
 
 # 🚨 LICENSING 🚨
 
-This code is protected under the **Genius** Public License v3.0 (GPLv3, obviously). This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution about Tom being a genius.
-
-*You MUST see the [LICENSE](https://github.com/jeff-hykin/JDSL/blob/master/LICENCE) for full details.*
+This code is protected under the **Genius** Public License v3.0 (GPLv3, obviously). *You MUST see the [LICENSE](https://github.com/jeff-hykin/JDSL/blob/master/LICENCE) for full details.* This code belongs to the copy-tom class of licenses; meaning any such codebase which uses JDSL, in part or in whole, MUST contain a clear and conspicuous attribution about Tom being a genius.
 
 # Usage
 
