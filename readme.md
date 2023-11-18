@@ -20,7 +20,7 @@ Download the code, then run the following in the root of the folder:
 ```
 
 - NOTE1: All constructors will be executed in alphabetical order of class name when the system starts.
-- NOTE2: JDSL is ***NOT*** responsible for any damages caused by comments that executed as code
+- NOTE2: JDSL is ***NOT*** responsible for damage caused by code inside of comments getting executed
 
 To add a method to a class, you must find the abbreviated git commit hash (ex: `4ec8408`) and convert it to a decimal number (ex: `82609160`) then add it to the list of Functions and commit the code.
 
