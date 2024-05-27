@@ -1,4 +1,4 @@
-# JDSL (Pronounced JayDeeezel)
+# JDSL (Pronounced JayDeezel)
 
 The first source-available version of [Tom's JDSL](https://www.youtube.com/watch?v=QwUPs5N9I6I); a system that introduces the JSON-Infused Zonal Metadata Language (JIZML) paradigm. A powerful, REALLY powerful, system created by Tom.
 
